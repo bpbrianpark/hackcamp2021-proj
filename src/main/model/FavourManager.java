@@ -116,18 +116,39 @@ public class FavourManager {
         return false;
     }
 
-    //REQUIRES: f is in completed
     //MODIFIES: this
     //EFFECTS: removes favour from list of completed
-    public void removeFromCompleted(Favour f) {
+    public void removeFromCompleted(String n) {
+        /*
         favCompleted.remove(f);
+
+        if (!containsInAsked(n)) {
+            favAsked.add(f);
+        }
+         */
+        for (Favour f: favCompleted) {
+            if (n == f.getReqName()) {
+                favCompleted.remove(f);
+            } else {
+                //
+            }
+        }
     }
 
-    //REQUIRES: f is in asked
     //MODIFIES: this
     //EFFECTS: removes favour from list asked
-    public void removeFromAsked(Favour f) {
+    public void removeFromAsked(String n) {
+        /*
         favAsked.remove(f);
+
+         */
+        for (Favour f: favAsked) {
+            if (n == f.getReqName()) {
+                favAsked.remove(f);
+            } else {
+                //
+            }
+        }
     }
 
 }
