@@ -22,7 +22,7 @@ public class FavourManager implements Writable {
     public FavourManager(LinkedList<Favour> completed, LinkedList<Favour> asked, double ratio) {
         this.favCompleted = completed;
         this.favAsked = asked;
-        this.ratio = calcFavRatio();
+        this.ratio = updateFavourRatio();
     }
 
     //EFFECTS: returns list of completed favours
@@ -51,35 +51,36 @@ public class FavourManager implements Writable {
     }
 
     //EFFECTS: returns ratio of favours completed to asked for
-    public double calcFavRatio() {
-        if (numAsked() == 0) {
+    public double updateFavourRatio() {
+        double comp = numCompleted();
+        double ask = numAsked();
+        if (numAsked() == 0 && numCompleted() == 0) {
+            this.ratio = 1;
+            return 1;
+        } else if (numAsked() == 0) {
+            this.ratio = 100;
             return 100;
         } else {
-            return numCompleted()/numAsked();
+            this.ratio = comp/ask;
+            return comp/ask;
         }
     }
 
+    /*
     //MODIFIES: this
     //EFFECTS: sets ratio of favours completed to asked for
     public void updateFavRatio() {
-        if (numAsked() == 0) {
-            this.ratio = 100;
-        } else {
-            this.ratio = numCompleted()/numAsked();
-        }
+        this.ratio = updateFavourRatio();
     }
+     */
 
     //MODIFIES: this
     //EFFECTS: adds favour to list of completed
     public void addToCompleted(Favour f) {
-        /* original implementation
-        if (!favCompleted.contains(f)) {
-            favCompleted.add(f);
-        }
-         */
         String n = f.getReqName();
         if (!containsInCompleted(n)) {
             favCompleted.add(f);
+            updateFavourRatio();
         }
     }
 
@@ -94,6 +95,7 @@ public class FavourManager implements Writable {
         String n = f.getReqName();
         if (!containsInAsked(n)) {
             favAsked.add(f);
+            updateFavourRatio();
         }
     }
 
@@ -134,6 +136,7 @@ public class FavourManager implements Writable {
         for (Favour f: favCompleted) {
             if (n == f.getReqName()) {
                 favCompleted.remove(f);
+                updateFavourRatio();
             } else {
                 //
             }
@@ -150,6 +153,7 @@ public class FavourManager implements Writable {
         for (Favour f: favAsked) {
             if (n == f.getReqName()) {
                 favAsked.remove(f);
+                updateFavourRatio();
             } else {
                 //
             }
