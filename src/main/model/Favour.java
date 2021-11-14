@@ -7,7 +7,7 @@ public class Favour {
     private double estimatedCom; //estimated completion time in minutes
 
     /*
-     * EFFECTS: constructs a favour
+     * EFFECTS: constructs a favour with
      *          request name set to setReqName,
      *          description set to desc
      *          estimated completion time set to estimatedCom
