@@ -1,5 +1,9 @@
 package model;
 
+import sun.awt.image.ImageWatched;
+
+import java.util.LinkedList;
+
 // YEOJUN
 // Represents a user of the application
 public class User {
@@ -15,7 +19,7 @@ public class User {
     // EFFECTS: creates a new user with the given name
     public User(String name) {
         this.name = name;
-        favourManager = new FavourManager();
+        favourManager = new FavourManager(new LinkedList<Favour>(), new LinkedList<Favour>());
         numDone = 0;
         numReq = 0;
         ratio = 0;
@@ -24,21 +28,21 @@ public class User {
     // MODIFIES: favourManager
     // EFFECTS: adds a favour request for the user with given name, description, estimated completion time
     public void addReq(String reqName, String description, double estTime) {
-        Favour newReq = Favour(reqName, ID, description, estTime); // Favour is not implemented yet
-        favourManager.addReq(newReq); // double check
+        Favour newReq = new Favour(reqName, description, estTime); // Favour is not implemented yet
+        favourManager.addToAsked(newReq); // double check
         numReq++;
-        favourManager.updateRatio();
+        favourManager.updateFavRatio();
         checkRatioWarning();
     }
 
     // MODIFIES: favourManager
     // EFFECTS: if there is a request with reqName, then remove it. Nothing otherwise
     public void removeReq(String reqName) {
-        if (favourManager.contains(reqName)) {
-            favourManager.removeReq(reqName);
+        if (favourManager.containsInAsked(reqName)) {
+            favourManager.removeFromAsked(reqName);
         }
         numReq--;
-        favourManager.updateRatio();
+        favourManager.updateFavRatio();
         checkRatioWarning();
     }
 
