@@ -34,7 +34,7 @@ public class User implements Writable {
             Favour newReq = new Favour(reqName, description, estTime); // Favour is not implemented yet
             favourManager.addToAsked(newReq); // double check
             numReq++;
-            favourManager.updateFavRatio();
+            favourManager.updateFavourRatio();
             checkRatioWarning();
         }
     }
@@ -46,7 +46,7 @@ public class User implements Writable {
             favourManager.removeFromAsked(reqName);
         }
         numReq--;
-        favourManager.updateFavRatio();
+        favourManager.updateFavourRatio();
         checkRatioWarning();
     }
 
