@@ -30,11 +30,13 @@ public class User implements Writable {
     // MODIFIES: favourManager
     // EFFECTS: adds a favour request for the user with given name, description, estimated completion time
     public void addReq(String reqName, String description, double estTime) {
-        Favour newReq = new Favour(reqName, description, estTime); // Favour is not implemented yet
-        favourManager.addToAsked(newReq); // double check
-        numReq++;
-        favourManager.updateFavourRatio();
-        checkRatioWarning();
+        if (!favourManager.containsInAsked(reqName)) {
+            Favour newReq = new Favour(reqName, description, estTime); // Favour is not implemented yet
+            favourManager.addToAsked(newReq); // double check
+            numReq++;
+            favourManager.updateFavourRatio();
+            checkRatioWarning();
+        }
     }
 
     // MODIFIES: favourManager
