@@ -1,12 +1,16 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 // Jason
 // Represents the User manager class that deals with many users
-public class UserManager {
+public class UserManager implements Writable {
     private ArrayList<User> listOfUsers;
 
     // Constructor
@@ -51,5 +55,23 @@ public class UserManager {
             }
         }
         return listOfSortedUsers;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("Users: ", usersToJson());
+        return json;
+    }
+
+    //EFFECTS: returns list of users as a JSONArray
+    private JSONArray usersToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (User u : listOfUsers) {
+            jsonArray.put(u.toJson());
+        }
+
+        return jsonArray;
     }
 }

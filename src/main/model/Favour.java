@@ -1,9 +1,13 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.Objects;
 
+// BRIAN
 // Represents a favour to be completed
-public class Favour {
+public class Favour implements Writable {
     private String reqName; //request name
     private String desc; //description of favour
     private double estimatedCom; //estimated completion time in minutes
@@ -48,5 +52,14 @@ public class Favour {
     @Override
     public int hashCode() {
         return Objects.hash(reqName, desc, estimatedCom);
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("Request Name: ", reqName);
+        json.put("Description: ", desc);
+        json.put("Estimated Completion Time: ", estimatedCom);
+        return json;
     }
 }

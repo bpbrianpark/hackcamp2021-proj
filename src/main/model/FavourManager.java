@@ -1,10 +1,15 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.LinkedList;
 import java.util.List;
 
+// BRIAN
 //Represents a favour manager, list of favours received and completed
-public class FavourManager {
+public class FavourManager implements Writable {
     private LinkedList<Favour> favCompleted;
     private LinkedList<Favour> favAsked;
     private double ratio;
@@ -14,7 +19,7 @@ public class FavourManager {
                list of favours asked for set to asked
                (ratio of completed to asked set to ratio) ?
      */
-    public FavourManager(LinkedList<Favour> completed, LinkedList<Favour> asked) {
+    public FavourManager(LinkedList<Favour> completed, LinkedList<Favour> asked, double ratio) {
         this.favCompleted = completed;
         this.favAsked = asked;
         this.ratio = calcFavRatio();
@@ -149,6 +154,37 @@ public class FavourManager {
                 //
             }
         }
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("Favours Completed: ", favoursCompletedToJson());
+        json.put("Favours Asked: ", favoursAskedToJson());
+        json.put("Ratio: ", ratio);
+        return json;
+    }
+
+    //EFFECTS: returns list of favours asked as a JSONArray
+    private JSONArray favoursAskedToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Favour f : favAsked) {
+            jsonArray.put(f.toJson());
+        }
+
+        return jsonArray;
+    }
+
+    //EFFECTS: returns list of favours completed as a JSONArray
+    private JSONArray favoursCompletedToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Favour f : favCompleted) {
+            jsonArray.put(f.toJson());
+        }
+
+        return jsonArray;
     }
 
 }
