@@ -8,6 +8,8 @@ public class User {
     private int ratio;
     private int numDone;
     private int numReq;
+    private double ratioWarningBoundary = 0.25;
+    private boolean isWarned;
 
     // constructor
     // EFFECTS: creates a new user with the given name
@@ -22,10 +24,11 @@ public class User {
     // MODIFIES: favourManager
     // EFFECTS: adds a favour request for the user with given name, description, estimated completion time
     public void addReq(String reqName, String description, double estTime) {
-        Favour newReq = Favour(reqName, description, estTime); // Favour is not implemented yet
+        Favour newReq = Favour(reqName, ID, description, estTime); // Favour is not implemented yet
         favourManager.addReq(newReq); // double check
         numReq++;
         favourManager.updateRatio();
+        checkRatioWarning();
     }
 
     // MODIFIES: favourManager
@@ -34,9 +37,18 @@ public class User {
         if (favourManager.contains(reqName)) {
             favourManager.removeReq(reqName);
         }
+        numReq--;
+        favourManager.updateRatio();
+        checkRatioWarning();
     }
 
-
+    public void checkRatioWarning() {
+        if (ratio > ratioWarningBoundary) {
+            isWarned = true;
+        } else {
+            isWarned = false;
+        }
+    }
 
     // this will likely be handled by user manager
 //    // REQUIRES: favourName is already a pre-existing favour in favourManager
