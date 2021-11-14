@@ -16,7 +16,7 @@ public class User {
     private boolean isWarned;
 
     // constructor
-    // EFFECTS: creates a new user with the given name
+    // EFFECTS: creates a new user with the given name and params
     public User(String name) {
         this.name = name;
         favourManager = new FavourManager(new LinkedList<Favour>(), new LinkedList<Favour>());
