@@ -67,13 +67,14 @@ public class FavourManager {
     //MODIFIES: this
     //EFFECTS: adds favour to list of completed
     public void addToCompleted(Favour f) {
-
+        favCompleted.add(f);
     }
 
     //MODIFIES: this
     //EFFECTS: adds favour to list asked
     public void addToAsked(Favour f) {
 
+        favAsked.add(f);
     }
 
     //REQUIRES: f is in completed
