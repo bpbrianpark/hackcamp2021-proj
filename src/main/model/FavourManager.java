@@ -67,7 +67,13 @@ public class FavourManager {
     //MODIFIES: this
     //EFFECTS: adds favour to list of completed
     public void addToCompleted(Favour f) {
+        /* original implementation
         if (!favCompleted.contains(f)) {
+            favCompleted.add(f);
+        }
+         */
+        String n = f.getReqName();
+        if (!containsInCompleted(n)) {
             favCompleted.add(f);
         }
     }
@@ -75,9 +81,39 @@ public class FavourManager {
     //MODIFIES: this
     //EFFECTS: adds favour to list asked
     public void addToAsked(Favour f) {
+        /* original implementation
         if (!favAsked.contains(f)) {
             favAsked.add(f);
         }
+         */
+        String n = f.getReqName();
+        if (!containsInAsked(n)) {
+            favAsked.add(f);
+        }
+    }
+
+    //EFFECTS: returns true if request name is in contained in asked
+    public boolean containsInAsked(String name) {
+        for (Favour f: favAsked) {
+            if (name == f.getReqName()) {
+                return true;
+            } else {
+                //
+            }
+        }
+        return false;
+    }
+
+    //EFFECTS: returns true if request name is in contained in completed
+    public boolean containsInCompleted(String name) {
+        for (Favour f: favCompleted) {
+            if (name == f.getReqName()) {
+                return true;
+            } else {
+                //
+            }
+        }
+        return false;
     }
 
     //REQUIRES: f is in completed
