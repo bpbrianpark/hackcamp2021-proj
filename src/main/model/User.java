@@ -1,12 +1,14 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writable;
 import sun.awt.image.ImageWatched;
 
 import java.util.LinkedList;
 
 // YEOJUN
 // Represents a user of the application
-public class User {
+public class User implements Writable {
     private String name;
     private FavourManager favourManager;
     private int ratio;
@@ -17,9 +19,9 @@ public class User {
 
     // constructor
     // EFFECTS: creates a new user with the given name and params
-    public User(String name) {
+    public User(String name, FavourManager fm, double rat, int nmDone, int nmReq, double rwb, boolean isWarn) {
         this.name = name;
-        favourManager = new FavourManager(new LinkedList<Favour>(), new LinkedList<Favour>());
+        favourManager = new FavourManager(new LinkedList<Favour>(), new LinkedList<Favour>(), 0);
         numDone = 0;
         numReq = 0;
         ratio = 0;
@@ -83,5 +85,19 @@ public class User {
 
     public int getNumReq() {
         return numReq;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("Name: ", name);
+        json.put("Favour Manager: ", favourManager);
+        json.put("User Ratio: ", ratio);
+        json.put("Number Done: ", numDone);
+        json.put("Number Requested: ", numReq);
+        json.put("Ratio Warning Boundary: ", 0.25);
+        json.put("Is Warned: ", isWarned);
+
+        return json;
     }
 }
