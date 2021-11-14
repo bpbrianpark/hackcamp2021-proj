@@ -28,11 +28,13 @@ public class User {
     // MODIFIES: this, favourManager
     // EFFECTS: adds a favour request for the user with given name, description, estimated completion time
     public void addReq(String reqName, String description, double estTime) {
-        Favour newReq = new Favour(reqName, description, estTime); // Favour is not implemented yet
-        favourManager.addToAsked(newReq); // double check
-        numReq++;
-        favourManager.updateFavRatio();
-        checkRatioWarning();
+        if (!favourManager.containsInAsked(reqName)) {
+            Favour newReq = new Favour(reqName, description, estTime); // Favour is not implemented yet
+            favourManager.addToAsked(newReq); // double check
+            numReq++;
+            favourManager.updateFavRatio();
+            checkRatioWarning();
+        }
     }
 
     // MODIFIES: this, favourManager
