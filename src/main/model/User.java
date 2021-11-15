@@ -11,7 +11,7 @@ import java.util.LinkedList;
 public class User implements Writable {
     private String name;
     private FavourManager favourManager;
-    private int ratio;
+    private double ratio;
     private int numDone;
     private int numReq;
     private double ratioWarningBoundary = 0.25;
@@ -21,10 +21,14 @@ public class User implements Writable {
     // EFFECTS: creates a new user with the given name and params
     public User(String name, FavourManager fm, double rat, int nmDone, int nmReq, double rwb, boolean isWarn) {
         this.name = name;
-        favourManager = new FavourManager(new LinkedList<Favour>(), new LinkedList<Favour>(), 0);
-        numDone = 0;
-        numReq = 0;
-        ratio = 0;
+        //favourManager = new FavourManager(new LinkedList<Favour>(), new LinkedList<Favour>(), 0);
+        this.favourManager = fm;
+        this.numDone = nmDone;
+        this.numReq = nmReq;
+        this.ratio = rat;
+        //numDone = 0;
+        //numReq = 0;
+        //ratio = 0;
     }
 
     // MODIFIES: this, favourManager
@@ -44,8 +48,8 @@ public class User implements Writable {
     public void removeReq(String reqName) {
         if (favourManager.containsInAsked(reqName)) {
             favourManager.removeFromAsked(reqName);
+            numReq--;
         }
-        numReq--;
         favourManager.updateFavourRatio();
         checkRatioWarning();
     }
@@ -53,9 +57,9 @@ public class User implements Writable {
     // MODIFIES: this
     public void checkRatioWarning() {
         if (ratio > ratioWarningBoundary) {
-            isWarned = true;
+            this.isWarned = true;
         } else {
-            isWarned = false;
+            this.isWarned = false;
         }
     }
 
@@ -78,8 +82,8 @@ public class User implements Writable {
         return favourManager;
     }
 
-    public int getRatio() {
-        return ratio;
+    public double getRatio() {
+        return (numDone/numReq);
     }
 
     public int getNumDone() {
@@ -88,6 +92,10 @@ public class User implements Writable {
 
     public int getNumReq() {
         return numReq;
+    }
+
+    public boolean getIsWarned() {
+        return isWarned;
     }
 
     @Override
