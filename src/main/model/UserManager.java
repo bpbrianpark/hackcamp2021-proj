@@ -20,7 +20,7 @@ public class UserManager implements Writable {
     }
 
     // GETTERS
-    public List<User> getUsers() {
+    public ArrayList<User> getUsers() {
         return this.listOfUsers;
     }
 
@@ -41,7 +41,7 @@ public class UserManager implements Writable {
     }
 
     // EFFECTS: Returns a sorted list of users given a list of users by their Completed/Asked favour ratio (Descending)
-    public List<User> sortedUsers(ArrayList<User> arr) {
+    public ArrayList<User> sortedUsers(ArrayList<User> arr) {
         int n = arr.size();
         User temp;
         ArrayList<User> listOfSortedUsers = arr;

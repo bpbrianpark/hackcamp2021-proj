@@ -62,7 +62,7 @@ public class UserTest {
         equalAskedandCompleted = new FavourManager(testCompletedFavours, testAskedFavours, 0);
         nothingAskedOrCompleted = new FavourManager(emptyCompletedFavours, emptyAskedFavours, 0);
 
-        testUser = new User("Pete", equalAskedandCompleted, 1, 2, 2, 0.25, false);
+        testUser = new User("Pete", equalAskedandCompleted, 1, 2, 2,  false);
     }
 
     @Test
