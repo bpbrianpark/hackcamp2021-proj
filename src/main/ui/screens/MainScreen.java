@@ -112,7 +112,8 @@ public class MainScreen implements ActionListener {
         ImageIcon icon;
         try {
             icon = new ImageIcon(ImageIO.read(new File(profilePicPath)));
-            JLabel picLabel = new JLabel("John Doe\nInterests: brainstorming, animals, small acts", icon, JLabel.CENTER);
+            JLabel picLabel = new JLabel("John Doe", icon, JLabel.CENTER);
+            // TODO: add a "interests" section under this
             setLabelFont(picLabel, SIDE_PANEL_FONT_COLOR, SIDE_PANEL_FONT_SIZE);
             picLabel.setVerticalTextPosition(JLabel.BOTTOM);
             picLabel.setHorizontalTextPosition(JLabel.CENTER);
@@ -209,6 +210,8 @@ public class MainScreen implements ActionListener {
             popUpFrame.setMinimumSize(new Dimension(500,500));
             popUpFrame.setLocationRelativeTo(null);
         }
+
+        // TODO: this brian
 
 //            JButton req1 = setupButton("Please pick up my groceries");
 //        JButton req2 = setupButton("Walk my dog");
