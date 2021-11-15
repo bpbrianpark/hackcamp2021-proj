@@ -1,5 +1,5 @@
 # hackcamp2021-proj
-## favour for a favour
+## favour for favour
 - submit a favour that you can do for strangers, you can take in favours from others
 - e.g. you do something for the community, someone does it for you, can be within your region too (you get favours within a certain radius)
 - status: this person has done n favours, this person got n favours
