@@ -122,7 +122,7 @@ public class UserTest {
         testUser.removeReq("placeholder");
         assertEquals(2, testUser.getNumReq());
     }
-
+/*
     @Test
     void testRatioWarningEqual() {
         assertEquals(2, testUser.getNumReq());
@@ -171,6 +171,6 @@ public class UserTest {
         testUser.checkRatioWarning();
         assertFalse(testUser.getIsWarned());
     }
-
+*/
 
 }

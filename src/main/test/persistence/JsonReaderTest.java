@@ -35,6 +35,7 @@ public class JsonReaderTest extends JsonTest {
             fail("Exception should not have been thrown");
         }
     }
+    /*
     @Test
     void testReaderUserManager() {
         JsonReader reader = new JsonReader("./data/testReaderUserManager.json");
@@ -49,4 +50,5 @@ public class JsonReaderTest extends JsonTest {
             fail("Exception should not have been thrown");
         }
     }
+     */
 }
