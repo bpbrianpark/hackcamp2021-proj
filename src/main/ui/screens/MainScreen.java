@@ -16,8 +16,8 @@ import java.io.IOException;
 public class MainScreen implements ActionListener {
     protected static final Color MAIN_CONTAINER_COLOR = new Color(42, 34, 74);
     protected static final Color TOP_PANEL_COLOR = new Color(255, 252, 171);
-    protected static final Color LEFT_PANEL_COLOR = new Color(243, 0, 198);
-    protected static final Color RIGHT_PANEL_COLOR = new Color(0, 220, 230);
+    protected static final Color LEFT_PANEL_COLOR = new Color(243, 100, 198);
+    protected static final Color RIGHT_PANEL_COLOR = new Color(100, 220, 230);
     protected static final Color SIDE_PANEL_FONT_COLOR = MAIN_CONTAINER_COLOR;
     protected static final int TOP_PANEL_FONT_SIZE = 30;
     protected static final int BUTTON_FONT_SIZE = 20;
@@ -93,7 +93,7 @@ public class MainScreen implements ActionListener {
     private void setupLeftPanelGrid(JPanel panel) {
         JPanel gridPanel = new JPanel(new GridLayout(2, 1));
         JPanel userProfile = new JPanel();
-        JPanel myReq = new JPanel(new GridLayout(5, 1));
+        JPanel myReq = new JPanel(new GridLayout(5, 1, 5, 5));
         setupUserProfile(userProfile);
         setupMyReq(myReq);
         userProfile.setVisible(true);
@@ -112,7 +112,8 @@ public class MainScreen implements ActionListener {
         ImageIcon icon;
         try {
             icon = new ImageIcon(ImageIO.read(new File(profilePicPath)));
-            JLabel picLabel = new JLabel("John Doe\nInterests: brainstorming, animals, small acts", icon, JLabel.CENTER);
+            JLabel picLabel = new JLabel("John Doe", icon, JLabel.CENTER);
+            // TODO: add a "interests" section under this
             setLabelFont(picLabel, SIDE_PANEL_FONT_COLOR, SIDE_PANEL_FONT_SIZE);
             picLabel.setVerticalTextPosition(JLabel.BOTTOM);
             picLabel.setHorizontalTextPosition(JLabel.CENTER);
@@ -165,13 +166,25 @@ public class MainScreen implements ActionListener {
     // MODIFIES: panel
     // EFFECTS: constructs a grid panel to allow a list of buttons
     private void setupRightPanelGrid(JPanel panel) {
-        JPanel gridPanel = new JPanel(new GridLayout(10, 1));
+        JPanel gridPanel = new JPanel(new GridLayout(7, 1, 0, 5));
         JLabel title = new JLabel("Pinned Favours", JLabel.CENTER);
         setLabelFont(title, SIDE_PANEL_FONT_COLOR, SIDE_PANEL_FONT_SIZE);
-        gridPanel.setBackground(LEFT_PANEL_COLOR);
+        gridPanel.setBackground(RIGHT_PANEL_COLOR);
+        gridPanel.add(title);
 
         JButton pin1 = setupButton("Help brainstorm my daughter's birthday party ideas");
-        JButton pin2 = setupButton(""); //TODO
+        JButton pin2 = setupButton("Join HackCamp 2021 with me");
+        JButton pin3 = setupButton("Play soccer with my friends");
+        JButton pin4 = setupButton("Get groceries");
+        JButton pin5 = setupButton("Give me a high five!");
+        JButton pin6 = setupButton("Buy me cold medicine");
+
+        gridPanel.add(pin1);
+        gridPanel.add(pin2);
+        gridPanel.add(pin3);
+        gridPanel.add(pin4);
+        gridPanel.add(pin5);
+        gridPanel.add(pin6);
 
         panel.add(gridPanel);
     }
@@ -202,30 +215,33 @@ public class MainScreen implements ActionListener {
     }
 
     // EFFECTS: creates a new pop-up frame with information about the request favour
-    public void loadReqFavour(String reqTitle) {
-        JFrame popUpFrame = new JFrame();
-        if (reqTitle.equals("Please pick up my groceries")) {
-            popUpFrame.setTitle("Please pick up my groceries");
-            popUpFrame.setMinimumSize(new Dimension(500,500));
-            popUpFrame.setLocationRelativeTo(null);
-        }
-
-//            JButton req1 = setupButton("Please pick up my groceries");
-//        JButton req2 = setupButton("Walk my dog");
-//        JButton req3 = setupButton("Tell me a story");
-
-    }
+//    public void loadReqFavour(String reqTitle) {
+//        JFrame popUpFrame = new JFrame();
+//        if (reqTitle.equals("Please pick up my groceries")) {
+//            popUpFrame.setTitle("Please pick up my groceries");
+//            popUpFrame.setMinimumSize(new Dimension(500,500));
+//            popUpFrame.setLocationRelativeTo(null);
+//        }
+//
+//        // TODO: this brian
+//
+////            JButton req1 = setupButton("Please pick up my groceries");
+////        JButton req2 = setupButton("Walk my dog");
+////        JButton req3 = setupButton("Tell me a story");
+//
+//    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if ("req1".equals(e.getActionCommand())) {
-            loadReqFavour("req1");
-        } else if ("req2".equals(e.getActionCommand())) {
-            loadReqFavour("req2");
-        } else if ("req3".equals(e.getActionCommand())) {
-            loadReqFavour("req3");
-        } else if ("req4".equals(e.getActionCommand())) {
-            loadReqFavour("req4");
+        if ("Please pick up my groceries".equals(e.getActionCommand())) {
+            PopUpScreen popUpScreen = new PopUpScreen("Please pick up my groceries");
+            popUpScreen.loadReqFavour("Please pick up my groceries");
+        } else if ("Walk my dog".equals(e.getActionCommand())) {
+            PopUpScreen popUpScreen = new PopUpScreen("Walk my dog");
+            popUpScreen.loadReqFavour("Walk my dog");
+        } else if ("Tell me a story".equals(e.getActionCommand())) {
+            PopUpScreen popUpScreen = new PopUpScreen("Tell me a story");
+            popUpScreen.loadReqFavour("Tell me a story");
         }
     }
 }
