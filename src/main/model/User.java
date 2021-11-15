@@ -14,12 +14,12 @@ public class User implements Writable {
     private double ratio;
     private int numDone;
     private int numReq;
-    private double ratioWarningBoundary = 0.25;
+    public static final double ratioWarningBoundary = 0.25;
     private boolean isWarned;
 
     // constructor
     // EFFECTS: creates a new user with the given name and params
-    public User(String name, FavourManager fm, double rat, int nmDone, int nmReq, double rwb, boolean isWarn) {
+    public User(String name, FavourManager fm, double rat, int nmDone, int nmReq, boolean isWarn) {
         this.name = name;
         //favourManager = new FavourManager(new LinkedList<Favour>(), new LinkedList<Favour>(), 0);
         this.favourManager = fm;
@@ -83,7 +83,11 @@ public class User implements Writable {
     }
 
     public double getRatio() {
-        return (numDone/numReq);
+        if (numReq == 0) {
+            return 100;
+        } else {
+            return (numDone / numReq);
+        }
     }
 
     public int getNumDone() {

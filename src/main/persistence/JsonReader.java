@@ -73,7 +73,6 @@ public class JsonReader {
         double ratio = jsonObject.getDouble("UserManager Ratio: ");
         int numDone = jsonObject.getInt("Number Done: ");
         int numReq  = jsonObject.getInt("Number Requested: ");
-        double rwb = jsonObject.getDouble("Ratio Warning Boundary: ");
         boolean warned = jsonObject.getBoolean("Is Warned: ");
 
         addCompletedFavours(fm, jsonObject);
@@ -81,7 +80,7 @@ public class JsonReader {
 
         JSONArray jsonArray1 = jsonObject.getJSONArray("");
 
-        User u = new User(name, fm, ratio, numDone, numReq, rwb, warned);
+        User u = new User(name, fm, ratio, numDone, numReq, warned);
         um.addUser(u);
     }
 
