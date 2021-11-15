@@ -31,7 +31,7 @@ public class User implements Writable {
         //ratio = 0;
     }
 
-    // MODIFIES: favourManager
+    // MODIFIES: this, favourManager
     // EFFECTS: adds a favour request for the user with given name, description, estimated completion time
     public void addReq(String reqName, String description, double estTime) {
         if (!favourManager.containsInAsked(reqName)) {
@@ -43,7 +43,7 @@ public class User implements Writable {
         }
     }
 
-    // MODIFIES: favourManager
+    // MODIFIES: this, favourManager
     // EFFECTS: if there is a request with reqName, then remove it. Nothing otherwise
     public void removeReq(String reqName) {
         if (favourManager.containsInAsked(reqName)) {
@@ -54,6 +54,7 @@ public class User implements Writable {
         checkRatioWarning();
     }
 
+    // MODIFIES: this
     public void checkRatioWarning() {
         if (ratio > ratioWarningBoundary) {
             this.isWarned = true;
