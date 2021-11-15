@@ -25,13 +25,14 @@ public class GUI extends JFrame {
         setMinimumSize(new Dimension(MIN_WIDTH, MIN_HEIGHT));
         setLocationRelativeTo(null);
 
-        initializeTitle();
+//        initializeTitle();
+        mainScreen = new MainScreen(this);
         initializeMain();
+        setVisible(true);
     }
 
     private void initializeTitle() {
         titleScreen = new TitleScreen(this);
-        mainScreen = new MainScreen(this);
         titleScreen.initialize();
     }
 
