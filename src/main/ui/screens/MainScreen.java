@@ -1,22 +1,28 @@
 package ui.screens;
 
+import model.User;
 import ui.GUI;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 // Represents a main screen for the GUI
-public class MainScreen {
+public class MainScreen implements ActionListener {
     protected static final Color MAIN_CONTAINER_COLOR = new Color(42, 34, 74);
     protected static final Color TOP_PANEL_COLOR = new Color(255, 252, 171);
     protected static final Color LEFT_PANEL_COLOR = new Color(243, 0, 198);
     protected static final Color RIGHT_PANEL_COLOR = new Color(0, 220, 230);
-    protected static final Color SIDE_PANEL_FONT_COLOR = Color.white;
+    protected static final Color SIDE_PANEL_FONT_COLOR = MAIN_CONTAINER_COLOR;
     protected static final int TOP_PANEL_FONT_SIZE = 30;
+    protected static final int BUTTON_FONT_SIZE = 20;
+    protected static final int SIDE_PANEL_FONT_SIZE = 25;
+
     private static final int HGAP = 8;
     private static final int VGAP = 6;
     protected Container mainContainer;
@@ -75,18 +81,42 @@ public class MainScreen {
     private void setupLeftPanel(Container mainContainer) {
         JPanel leftPanel = new JPanel();
         JPanel leftLabelPanel = new JPanel();
-//        setupSidePanelGrid(leftLabelPanel, "left");
+        setupLeftPanelGrid(leftLabelPanel);
         setupSidePanel(leftPanel, leftLabelPanel, "left");
-//        setupPanelButtons(leftPanel, "left");
         mainContainer.add(leftPanel, BorderLayout.WEST);
         leftPanel.setLayout(new GridBagLayout());
+        leftPanel.setBackground(LEFT_PANEL_COLOR);
+    }
 
-        ImageIcon icon = null;
+    // MODIFIES: panel
+    // EFFECTS: constructs a grid panel to allow 2 sections (user profile, my requested favours)
+    private void setupLeftPanelGrid(JPanel panel) {
+        JPanel gridPanel = new JPanel(new GridLayout(2, 1));
+        JPanel userProfile = new JPanel();
+        JPanel myReq = new JPanel(new GridLayout(5, 1));
+        setupUserProfile(userProfile);
+        setupMyReq(myReq);
+        userProfile.setVisible(true);
+        myReq.setVisible(true);
+        gridPanel.add(userProfile);
+        gridPanel.add(myReq);
+        panel.add(gridPanel);
+        gridPanel.setBackground(LEFT_PANEL_COLOR);
+        userProfile.setBackground(LEFT_PANEL_COLOR);
+        myReq.setBackground(LEFT_PANEL_COLOR);
+    }
+
+    // MODIIFES: this
+    // EFFECTS: constructs a user profile panel to allow user information
+    private void setupUserProfile(JPanel panel) {
+        ImageIcon icon;
         try {
             icon = new ImageIcon(ImageIO.read(new File(profilePicPath)));
-            JLabel picLabel = new JLabel();
-            picLabel.setIcon(icon);
-            leftPanel.add(picLabel);
+            JLabel picLabel = new JLabel("John Doe\nInterests: brainstorming, animals, small acts", icon, JLabel.CENTER);
+            setLabelFont(picLabel, SIDE_PANEL_FONT_COLOR, SIDE_PANEL_FONT_SIZE);
+            picLabel.setVerticalTextPosition(JLabel.BOTTOM);
+            picLabel.setHorizontalTextPosition(JLabel.CENTER);
+            panel.add(picLabel);
             picLabel.setVisible(true);
         } catch (IOException e) {
             System.err.println("No image found at " + profilePicPath);
@@ -94,16 +124,58 @@ public class MainScreen {
         }
     }
 
+    // MODIIFES: this
+    // EFFECTS: constructs a user profile panel to allow user information
+    private void setupMyReq(JPanel panel) {
+        JLabel title = new JLabel("My Requested Favours", JLabel.CENTER);
+        setLabelFont(title, SIDE_PANEL_FONT_COLOR, SIDE_PANEL_FONT_SIZE);
+        title.setVisible(true);
+        panel.add(title);
+
+        JButton req1 = setupButton("Please pick up my groceries");
+        JButton req2 = setupButton("Walk my dog");
+        JButton req3 = setupButton("Tell me a story");
+
+        panel.add(req1);
+        panel.add(req2);
+        panel.add(req3);
+    }
+
+    private JButton setupButton(String name) {
+        JButton button = new JButton(name);
+        String font = button.getFont().toString();
+        button.setFont(new Font(font, Font.PLAIN, BUTTON_FONT_SIZE));
+        button.setActionCommand(name);
+        button.addActionListener(this);
+        button.setVisible(true);
+        return button;
+    }
+
     // MODIFIES: mainContainer
     // EFFECTS: constructs the right panel of the mainContainer passed in as a parameter
     private void setupRightPanel(Container mainContainer) {
         JPanel rightPanel = new JPanel();
         JPanel rightLabelPanel = new JPanel();
-//        setupSidePanelGrid(rightLabelPanel, "right");
+        setupRightPanelGrid(rightLabelPanel);
         setupSidePanel(rightPanel, rightLabelPanel, "right");
 //        setupPanelButtons(rightPanel, "right");
         mainContainer.add(rightPanel, BorderLayout.EAST);
     }
+
+    // MODIFIES: panel
+    // EFFECTS: constructs a grid panel to allow a list of buttons
+    private void setupRightPanelGrid(JPanel panel) {
+        JPanel gridPanel = new JPanel(new GridLayout(10, 1));
+        JLabel title = new JLabel("Pinned Favours", JLabel.CENTER);
+        setLabelFont(title, SIDE_PANEL_FONT_COLOR, SIDE_PANEL_FONT_SIZE);
+        gridPanel.setBackground(LEFT_PANEL_COLOR);
+
+        JButton pin1 = setupButton("Help brainstorm my daughter's birthday party ideas");
+        JButton pin2 = setupButton(""); //TODO
+
+        panel.add(gridPanel);
+    }
+
 
     // MODIFIES: panel, labelPanel
     // EFFECTS: sets up the panel and label's background colour to the default panel colour for the side (top or side)
@@ -127,5 +199,33 @@ public class MainScreen {
     public void setLabelFont(JLabel label, Color color, int size) {
         label.setFont(new Font(label.getFont().toString(), Font.PLAIN, size));
         label.setForeground(color);
+    }
+
+    // EFFECTS: creates a new pop-up frame with information about the request favour
+    public void loadReqFavour(String reqTitle) {
+        JFrame popUpFrame = new JFrame();
+        if (reqTitle.equals("Please pick up my groceries")) {
+            popUpFrame.setTitle("Please pick up my groceries");
+            popUpFrame.setMinimumSize(new Dimension(500,500));
+            popUpFrame.setLocationRelativeTo(null);
+        }
+
+//            JButton req1 = setupButton("Please pick up my groceries");
+//        JButton req2 = setupButton("Walk my dog");
+//        JButton req3 = setupButton("Tell me a story");
+
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if ("req1".equals(e.getActionCommand())) {
+            loadReqFavour("req1");
+        } else if ("req2".equals(e.getActionCommand())) {
+            loadReqFavour("req2");
+        } else if ("req3".equals(e.getActionCommand())) {
+            loadReqFavour("req3");
+        } else if ("req4".equals(e.getActionCommand())) {
+            loadReqFavour("req4");
+        }
     }
 }
