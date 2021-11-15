@@ -22,10 +22,12 @@ public class MainScreen implements ActionListener {
     protected static final int TOP_PANEL_FONT_SIZE = 30;
     protected static final int BUTTON_FONT_SIZE = 20;
     protected static final int SIDE_PANEL_FONT_SIZE = 25;
+    private static final int CENTRE_PANEL_FONT_SIZE = 30;
 
     private static final int HGAP = 8;
     private static final int VGAP = 6;
     protected Container mainContainer;
+    private JPanel centrePanel;
     protected GUI gui;
 
     private String profilePicPath = "./data/image/elmo.jpg";
@@ -46,6 +48,7 @@ public class MainScreen implements ActionListener {
         setupTopPanel(mainContainer);
         setupLeftPanel(mainContainer);
         setupRightPanel(mainContainer);
+        setupCentrePanel();
     }
 
     // MODIFIES: this
@@ -69,7 +72,7 @@ public class MainScreen implements ActionListener {
     // MODIFIES: panel
     // EFFECTS: creates a new label with the title and adds the label to the given panel
     private void setupTopLabelPanel(JPanel panel) {
-        JLabel label = new JLabel("Favour for Favour: pay it forward a favour at a time", SwingConstants.CENTER);
+        JLabel label = new JLabel("Favour for Favour", SwingConstants.CENTER);
         setLabelFont(label, label.getForeground(), TOP_PANEL_FONT_SIZE);
         label.setBackground(TOP_PANEL_COLOR);
         panel.setBackground(TOP_PANEL_COLOR);
@@ -125,7 +128,7 @@ public class MainScreen implements ActionListener {
         }
     }
 
-    // MODIIFES: this
+    // MODIFIES: this
     // EFFECTS: constructs a user profile panel to allow user information
     private void setupMyReq(JPanel panel) {
         JLabel title = new JLabel("My Requested Favours", JLabel.CENTER);
@@ -207,29 +210,41 @@ public class MainScreen implements ActionListener {
         panel.add(labelPanel);
     }
 
+    // TODO
+    // MODIFIES: this
+    // EFFECTS: constructs the centre panel of the mainContainer passed in as a parameter
+    private void setupCentrePanel() {
+        centrePanel = new JPanel();
+        centrePanel.setBackground(MAIN_CONTAINER_COLOR);
+        setupCentreLabelPanel(centrePanel);
+        mainContainer.add(centrePanel, BorderLayout.CENTER);
+    }
+
+    private void setupCentreLabelPanel(JPanel centrePanel) {
+        JPanel labelEncapsulator = new JPanel(new GridLayout(5,0));
+        labelEncapsulator.setBackground(MAIN_CONTAINER_COLOR);
+
+        JLabel centreLabel = new JLabel("Available Favours");
+        setLabelFont(centreLabel, Color.white, CENTRE_PANEL_FONT_SIZE);;
+
+        JTextArea textArea = new JTextArea("- Wash my car\n\n- Do my dishes\n\n- Lend me herbs and spices for my dinner party\n\n- Babysit my kids (4)");
+        textArea.setFont(new Font(textArea.getFont().toString(), Font.PLAIN, CENTRE_PANEL_FONT_SIZE));
+        textArea.setForeground(Color.white);
+        textArea.setBackground(MAIN_CONTAINER_COLOR);
+        textArea.setEditable(false);
+
+        labelEncapsulator.add(centreLabel);
+        labelEncapsulator.add(textArea);
+
+        centrePanel.add(labelEncapsulator);
+    }
+
     // MODIFIES: label
     // EFFECTS: changes the font colour and size of the given label to the given colour and size
     public void setLabelFont(JLabel label, Color color, int size) {
         label.setFont(new Font(label.getFont().toString(), Font.PLAIN, size));
         label.setForeground(color);
     }
-
-    // EFFECTS: creates a new pop-up frame with information about the request favour
-//    public void loadReqFavour(String reqTitle) {
-//        JFrame popUpFrame = new JFrame();
-//        if (reqTitle.equals("Please pick up my groceries")) {
-//            popUpFrame.setTitle("Please pick up my groceries");
-//            popUpFrame.setMinimumSize(new Dimension(500,500));
-//            popUpFrame.setLocationRelativeTo(null);
-//        }
-//
-//        // TODO: this brian
-//
-////            JButton req1 = setupButton("Please pick up my groceries");
-////        JButton req2 = setupButton("Walk my dog");
-////        JButton req3 = setupButton("Tell me a story");
-//
-//    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
