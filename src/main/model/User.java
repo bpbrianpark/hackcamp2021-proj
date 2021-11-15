@@ -56,7 +56,7 @@ public class User implements Writable {
 
     // MODIFIES: this
     public void checkRatioWarning() {
-        if (ratio > ratioWarningBoundary) {
+        if (ratio < ratioWarningBoundary) {
             this.isWarned = true;
         } else {
             this.isWarned = false;
